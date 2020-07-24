@@ -6,7 +6,24 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Users page Tharindu</h1>
-    <h2>{{ $user }}</h2>
+    <h1>Users Register page</h1>
+
+    <form action="/register" method="post">
+
+        {{ csrf_field() }}
+
+        <label for="">Name: </label>
+        <input type="text" name="name" id=""><br><br>
+
+        <label for="">Email: </label>
+        <input type="email" name="email" id=""><br><br>
+
+        <label for="">Password: </label>
+        <input type="password" name="password" id=""><br><br>
+
+        <input type="submit" value="Regiter Now">
+
+    </form>
+    
 </body>
 </html>
