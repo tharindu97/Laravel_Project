@@ -17,7 +17,23 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('home', [
+    'uses' => 'UserController@getHome',
+    'as'=> 'home'
+])->middleware('auth');
+
+Route::get('signout', [
+    'uses' => 'UserController@logout',
+    'as'=> 'signout'
+]);
+
+
 Route::post('register', [
     'uses' => 'UserController@RegisterUser',
     'as'=> 'signup'
+]);
+
+Route::post('login', [
+    'uses' => 'UserController@LoginUser',
+    'as'=> 'signin'
 ]);

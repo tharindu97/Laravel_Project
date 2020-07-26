@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
+use Illuminate\Support\Facades\Auth;
 
-class UserController extends Controller
-{
+use App\User;
+use Illuminate\Support\Facades\Session;
+
+class UserController extends Controller {
+
     public function RegisterUser(Request $request){
 
         $this->validate($request, [
@@ -24,8 +27,36 @@ class UserController extends Controller
         $table->password = bcrypt($request->input('password'));
 
         $table->save();
-        
+
         return redirect()->back()->with('message', 'Registered Successfully!');
 
     }
+
+
+    public function LoginUser(Request $request) {
+
+        $data = $request->only('email', 'password');
+
+        if(Auth::attempt($data)){
+            return redirect()->route('home');
+        }
+
+        return redirect()->back()->with('message', 'Login Failed!');
+
+    }
+    public function getHome(){
+
+        return view('home');
+
+    }
+
+    public function logout(){
+
+        Auth::logout();
+        Session::flush();
+
+        return redirect('/')->with('message', 'Logged out!');
+    }
+
+
 }
