@@ -7,16 +7,25 @@ use App\User;
 
 class UserController extends Controller
 {
-    public function index(){
-        
-        //return view('users', [ 'username' => $username ]);
-        //return view('users', compact('username'));
-        //return view('users')->with('user', $username);
-        return view('users');
-    }
+    public function RegisterUser(Request $request){
 
-    public function StoreData(Request $request){
-        User::create($request -> all());
-        return 'User Regitered';
+        $this->validate($request, [
+            'firstname' => 'required|max:20',
+            'lastname' => 'required|max:20',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6'
+        ]);
+
+        $table = new User();
+
+        $table->fist_name = $request->input('firstname');
+        $table->last_name = $request->input('lastname');
+        $table->email = $request->input('email');
+        $table->password = bcrypt($request->input('password'));
+
+        $table->save();
+        
+        return redirect()->back()->with('message', 'Registered Successfully!');
+
     }
 }
